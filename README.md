@@ -1,3 +1,9 @@
+<div align="center">
+  <a href="https://github.com/dollydevel/wetlime">
+    <img src="logo.png" width="100%" height="auto" alt="Banner">
+  </a>
+</div>
+
 # WetLime — пакет альтернативных инструментов управления ОС Linux и Windows
 
 ## Основная информация
