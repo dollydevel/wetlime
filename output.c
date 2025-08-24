@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-// Кроссплатформенное средство расширенного вывода информации Output. Версия 1.0
+// Кроссплатформенное средство расширенного вывода информации Output. Версия 1.1
 // Standalone-порт команды xecho из консольной оболочки MizuPipe (WindPipe).
 // Автор: Dolly! (aka DollyDev). Эта программа лицензирована под лицензией BSD-3-Clause.
 //   ___        _               _   
@@ -54,13 +54,14 @@ int get_ansi_color_code(const char *name, int is_background) {
     return -1;
 }
 void print_usage(const char *progname) {
-    fprintf(stderr, "Использование: %s [--fore цвет | -f цвет] [--back цвет | -b цвет] текст...\n", progname);
+    fprintf(stderr, "Использование: %s [--fore цвет | -f цвет] [--back цвет | -b цвет] [--nonewline | --single | -ln | -l | -s | -nnl] текст...\n", progname);
     fprintf(stderr, "Цвета: black, darkblue, darkgreen, darkcyan, darkred, darkmagenta, darkyellow, gray,\n");
     fprintf(stderr, "        darkgray, blue, green, cyan, red, magenta, yellow, white\n");
 }
 int main(int argc, char *argv[]) {
     const char *fore_color_name = NULL;
     const char *back_color_name = NULL;
+    int no_newline = 0;
     int i = 1;
     while (i < argc) {
         if (strcmp(argv[i], "--fore") == 0 || strcmp(argv[i], "-f") == 0) {
@@ -79,6 +80,11 @@ int main(int argc, char *argv[]) {
             }
             back_color_name = argv[i + 1];
             i += 2;
+        } else if (strcmp(argv[i], "--nonewline") == 0 || strcmp(argv[i], "--single") == 0 || 
+                   strcmp(argv[i], "-ln") == 0 || strcmp(argv[i], "-l") == 0 || 
+                   strcmp(argv[i], "-s") == 0 || strcmp(argv[i], "-nnl") == 0) {
+            no_newline = 1;
+            i++;
         } else {
             break;
         }
@@ -124,6 +130,8 @@ int main(int argc, char *argv[]) {
     if (fore_code != -1 || back_code != -1) {
         printf("\033[0m");
     }
-    printf("\n");
+    if (!no_newline) {
+        printf("\n");
+    }
     return 0;
 }
